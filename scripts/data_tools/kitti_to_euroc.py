@@ -11,6 +11,8 @@ import datetime
 import cv2
 import csv
 
+
+
 def construct(kitti_path, cam0_path, cam1_path, imu0_path):
     f_cam0 = codecs.open(cam0_path + 'data.csv', 'w', 'utf-8')
     f_cam1 = codecs.open(cam1_path + 'data.csv', 'w', 'utf-8')
@@ -85,8 +87,6 @@ if __name__ == '__main__':
 
     in_dir = os.path.abspath(args.kitti)
     out_dir = os.path.join(in_dir, args.output)
-
-    print in_dir
     
     cam0_dir = out_dir + '/cam0/'
     cam1_dir = out_dir + '/cam1/'
@@ -100,5 +100,4 @@ if __name__ == '__main__':
         os.makedirs(imu0_dir)
 
     print('Construct EuRoC format datasets from kitti path ' + out_dir)
-    # print('Saving files to path ' + out_fn)
     construct(in_dir, cam0_dir, cam1_dir, imu0_dir)

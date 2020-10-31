@@ -15,8 +15,8 @@ import csv
 import codecs
 from cv_bridge import CvBridge
 from cv_bridge import CvBridgeError
-  
-# Reading bag filename from command line or roslaunch parameter.
+
+
 
 def construct(bagfile, out_filename):
     bridge = CvBridge()
@@ -24,9 +24,9 @@ def construct(bagfile, out_filename):
     cam1_cnt = 0
     imu_cnt = 0
     n = 0
-    f_cam0 = codecs.open(out_filename + 'mav0/cam0/data.csv', 'w', 'utf-8')
-    f_cam1 = codecs.open(out_filename + 'mav0/cam1/data.csv', 'w', 'utf-8')
-    f_imu = codecs.open(out_filename + 'mav0/imu0/data.csv', 'w', 'utf-8')
+    f_cam0 = codecs.open(out_filename + 'cam0/data.csv', 'w', 'utf-8')
+    f_cam1 = codecs.open(out_filename + 'cam1/data.csv', 'w', 'utf-8')
+    f_imu = codecs.open(out_filename + 'imu0/data.csv', 'w', 'utf-8')
     f_timestampscam = codecs.open(out_filename + 'cam_timestamps.txt', 'w', 'utf-8')
     csv_writer_cam0 = csv.writer(f_cam0)
     csv_writer_cam1 = csv.writer(f_cam1)
@@ -35,35 +35,32 @@ def construct(bagfile, out_filename):
     csv_writer_cam1.writerow(['#timestamp [ns]', 'filename'])
     csv_writer_imu.writerow(['#timestamp [ns]', 'w_RS_S_x [rad s^-1]', 'w_RS_S_y [rad s^-1]', 'w_RS_S_z [rad s^-1]', 
                              'a_RS_S_x [m s^-2]', 'a_RS_S_y [m s^-2]', 'a_RS_S_z [m s^-2]'])
-    with rosbag.Bag(bagfile, 'r') as bag:  #要读取的bag文件；
+    with rosbag.Bag(bagfile, 'r') as bag:
         for topic,msg,t in bag.read_messages():
-            if topic == "/cam0/image_raw": #相机0图像的topic；
-            # if topic == "/camera/infra1/image_rect_raw": #相机0图像的topic；
+            if topic == "/cam0/image_raw":
                 try:
                     cv_image = bridge.imgmsg_to_cv2(msg,"bgr8")
                 except CvBridgeError as e:
                     print e
                 timestr = "{:.9f}".format(msg.header.stamp.to_sec())
                 timer = str("{:.0f}".format(1e9 * float(timestr)))
-                image_name = timer + ".png" #图像命名：时间戳.png
-                cv2.imwrite(out_filename + "mav0/cam0/data/" + image_name, cv_image)  #保存；
+                image_name = timer + ".png"
+                cv2.imwrite(out_filename + "mav0/cam0/data/" + image_name, cv_image)
                 csv_writer_cam0.writerow([timer, image_name])
                 f_timestampscam.write(timer + '\n')
                 cam0_cnt += 1
-            elif topic == "/cam1/image_raw": #相机1图像的topic；
-            # elif topic == "/camera/infra2/image_rect_raw": #相机1图像的topic；
+            elif topic == "/cam1/image_raw":
                 try:
                     cv_image = bridge.imgmsg_to_cv2(msg,"bgr8")
                 except CvBridgeError as e:
                     print e
                 timestr = "{:.9f}".format(msg.header.stamp.to_sec())
                 timer = str("{:.0f}".format(1e9 * float(timestr)))
-                image_name = timer + ".png" #图像命名：时间戳.png
-                cv2.imwrite(out_filename + "mav0/cam1/data/" + image_name, cv_image)  #保存；
+                image_name = timer + ".png"
+                cv2.imwrite(out_filename + "mav0/cam1/data/" + image_name, cv_image)
                 csv_writer_cam1.writerow([timer, image_name])
                 cam1_cnt += 1
-            elif topic == "/imu0": #Imu的topic
-            # elif topic == "/camera/imu": #Imu的topic
+            elif topic == "/imu0":
                 timestr = "{:.9f}".format(msg.header.stamp.to_sec())
                 timer = str("{:.0f}".format(1e9 * float(timestr)))
                 csv_writer_imu.writerow([timer, "{:.18f}".format(msg.angular_velocity.x), "{:.18f}".format(msg.angular_velocity.y), "{:.18f}".format(msg.angular_velocity.z), 
