@@ -5,20 +5,6 @@ This repository includes
 * VIO initialization evaluation metrics
 * The source code for "Benchmark for Evaluating Initialization of Visual-Inertial Odometry"
 
-1. [Install](#install)
-2. [Prepare the Data](#prepare-the-data)
-   * [Poses](#poses)
-   * [Evaluation Parameters](#evaluation-parameters)
-   * [Start and end times](#start-and-end-times)
-3. [Run the Evaluation](#run-the-evaluation)
-   * [Single Trajectory Estimate](#single-trajectory-estimate)
-   * [Multiple Trajectory Estimate](#multiple-trajectory-estimates)
-4. [Utilities](#utilities)
-   * [Dataset Tools](#dataset-tools)
-   * [Misc. Scripts](#misc-scripts)
-5. [Customization: `Trajectory` class](#customization)
-6. [Credits](#credits)
-
 ## 1. Prerequisites
 The package is written in python and tested in Ubuntu 18.04.
 
