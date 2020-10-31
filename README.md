@@ -23,10 +23,6 @@ Each folder needs to contain two text files specifying the groundtruth and initi
 * `groundtruth.txt`: groundtruth poses
 * `init_estimate.txt`: initialization estimated poses
 
-For analyzing results from `N` runs, the estimated poses should have suffixes `0` to `N-1`.
-You can see the folders under `results` for examples.
-These files contains **all the essential information** to reproduce quantitative trajectory evaluation results with the toolbox.
-
 ### Poses
 The groundtruth (`groundtruth.txt`) and initialization estimated poses (`init_estimate.txt`) are specified in the following format
 
@@ -43,7 +39,7 @@ The timestamps are in the unit of second and used to establish temporal correspo
 As a ROS package, run
 
 ```
-rosrun rpg_trajectory_evaluation initialization_evaluation.py <result_folder>
+rosrun vio_initialization_evaluation initialization_evaluation.py <result_folder>
 ```
 
 or as a standalone package, run
@@ -62,6 +58,6 @@ After the initialization evaluation is done, you will find sub-scale plot folder
 
 ## 4. Dataset tools
 Under `scripts/dataset_tools`, we provide several scripts to prepare your dataset for analysis. Specifically:
-* `kitti_to_euroc`: convert KITTI style format to the EuRoC format.
+* `kitti_to_euroc.py`: convert KITTI style format to the EuRoC format.
 * `rosbag_to_euroc.py`: extract data in a ROS bag to the EuRoC format.
 * `timestamps_visualization.py`: visualizae the timestamps in a data file to check rrame skipping and frame dropping consditions before evaluation.
